@@ -8,12 +8,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.testcode.ui.theme.TestcodeTheme
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlinx.coroutines.delay
+import java.time.LocalDate
 
 /**
  * MainActivity는 파인만의 경로적분(Path Integral) 아이디어를 적용한
@@ -27,49 +29,39 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TestcodeTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
-                    Column(modifier = Modifier.padding(padding)) {
-                        // 기존 경로 적분 화면
-                        PathIntegralScreen(modifier = Modifier.weight(1f))
-                        
-                        // 새로 추가된 테스트용 UI 컴포넌트
-                        Greeting(name = "Android")
-                        Counter()
-                    }
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Greeting("Android")
                 }
             }
         }
     }
     
     /**
-     * 버그 1: null 처리 없음 - NullPointerException 발생 가능
+     * 인사말 형식 지정 함수 - null 이름 처리 버그 포함
      */
     fun formatGreeting(name: String?): String {
+        if (name == null) {
+            return "Hello, GUEST!"
+        }
         return "Hello, " + name.uppercase() + "!"
     }
     
     /**
-     * 버그 2: 0으로 나누는 계산 포함 - days = 0일 때 ArithmeticException 발생
+     * 만기일 계산 함수 - 0으로 나누기 버그 포함
      */
-    fun calculateDueDate(start: String, days: Int): String {
-        val secondsPerDay = 86400
-        val calculation = secondsPerDay / days // 0으로 나누면 ArithmeticException
-        
-        val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val date = format.parse(start)
-        val calendar = Calendar.getInstance()
-        calendar.time = date ?: Date()
-        calendar.add(Calendar.DAY_OF_YEAR, days)
-        
-        return format.format(calendar.time)
+    fun calculateDueDate(startDate: LocalDate, days: Int, divisor: Int): LocalDate {
+        val adjustedDays = days / divisor
+        return startDate.plusDays(adjustedDays.toLong())
     }
     
     /**
-     * 버그 3: 입력값 검증 없음 - 숫자가 아닌 항목 포함 시 NumberFormatException 발생
+     * 문자열 리스트의 숫자를 파싱하고 합산하는 함수 - 입력값 검증 버그 포함
      */
-    fun parseAndSum(values: List<String>): Int {
-        val numbers = values.map { it.toInt() } // 안전하지 않은 변환
-        return numbers.sum()
+    fun parseAndSum(strings: List<String>): Int {
+        return strings.map { it.toInt() }.sum()
     }
 }
 
@@ -144,20 +136,19 @@ fun Greeting(name: String) {
 fun Counter() {
     var count by remember { mutableStateOf(0) }
     
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(text = "Count: $count")
-        
         Button(onClick = {
-            // 버그 4: 무한 루프 - 앱 프리징 또는 강제 종료 가능
-            while (true) {
-                count++
-                if (count > 1000000) break // 이 조건은 실행되지 않음
+            // 의도적인 버그: 무한 루프 발생
+            while (count < 10) {
+                count += 1
             }
         }) {
             Text("Increment")
         }
     }
-    
-    // 이 코드는 버그를 수정한 예시 (학생이 구현해야 함)
-    // Button(onClick = { count++ }) { Text("Increment") }
 }
