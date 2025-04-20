@@ -1,14 +1,14 @@
 ⸻
 
-📘 TestCode 실습 가이드라인 - With Cursor AI 
+📘 TestCode 실습 가이드라인 - With Cursor AI
 
 ⸻
 
 🧪 실습 목표
 
 이 프로젝트는 AI 코딩 도구(Cursor)를 활용해 다음을 실습하는 데 목적이 있습니다:
-• 테스트 코드 자동 생성 및 활용
 • 의도적으로 삽입된 버그 분석 및 디버깅
+• 테스트 코드 자동 생성 및 활용
 • Compose UI 및 Kotlin 백엔드 로직 테스트
 
 ⸻
@@ -45,26 +45,38 @@ PathExplorer 여러 가지 버그 포함:
 
 ⸻
 
-✅ 실습 과제 - Cursor AI 활용 방법
+✅ 실습 과제 - Cursor AI 활용 방법 (실행 순서)
 
-1. 테스트 코드 생성하기
+1. **개발 환경 설정**
+   • Cursor에 "build.gradle.kts 파일에 JUnit과 Robolectric 의존성을 추가해줘" 라고 요청하여 필요한 의존성을 추가합니다.
+   • Gradle 동기화를 실행합니다.
+
+2. **버그 분석 및 해결하기** (컴파일 오류부터 먼저 해결)
+   • Cursor에 "MainActivity의 formatGreeting 함수에 있는 null 처리 문제를 해결해줘" 와 같이 요청합니다.
+   • Cursor에 "PathExplorer 클래스에 있는 모든 컴파일 오류를 수정해줘" 라고 요청합니다.
+   • 제안된 해결책을 검토하고 코드를 수정합니다.
+   • 코드가 컴파일되는지 확인합니다.
+
+3. **테스트 코드 생성하기**
    • Cursor에 "MainActivity 클래스의 formatGreeting 함수를 테스트하는 JUnit 테스트 코드를 작성해줘" 와 같이 요청합니다.
    • 테스트 코드가 생성되면 app/src/test/java/com/example/testcode/ 디렉토리에 적절한 파일로 저장합니다.
-   • 필요한 의존성을 추가하도록 Cursor에 요청합니다: "build.gradle.kts 파일에 JUnit과 Robolectric 의존성을 추가해줘"
+   • 동일한 방식으로 모든 함수에 대한 테스트 코드를 생성합니다.
 
-2. 버그 분석 및 해결하기
-   • Cursor에 "이 함수의 문제점을 찾고 해결 방법을 제안해줘" 와 같이 요청합니다.
-   • 제안된 해결책을 검토하고 코드를 수정합니다.
-   • 수정 후 테스트를 실행하여 버그가 해결되었는지 확인합니다.
+4. **남은 버그 수정 및 테스트**
+   • 테스트를 실행하여 실패하는 테스트를 확인합니다.
+   • Cursor에 "calculateDueDate 함수에서 0으로 나누기 문제를 해결해줘" 와 같이 구체적인 버그 수정을 요청합니다.
+   • parseAndSum 함수의 입력값 검증 문제도 유사하게 해결합니다.
+   • 수정 후 테스트를 다시 실행하여 버그가 해결되었는지 확인합니다.
 
-3. Compose UI 테스트하기
+5. **Compose UI 테스트하기**
    • Cursor에 "Greeting 컴포저블을 테스트하는 코드를 생성해줘" 와 같이 요청합니다.
    • 무한 루프 버그가 있는 Counter 컴포넌트에 대해 "이 컴포넌트의 문제를 해결하고 테스트 코드를 작성해줘" 라고 요청합니다.
 
-4. PathExplorer 테스트 및 디버깅하기
-   • Cursor에 "PathExplorer 클래스에 있는 버그를 분석해줘" 라고 요청합니다.
-   • "PathExplorer의, findOptimalPath 메서드를 테스트하는 코드를 작성해줘" 와 같이 요청하여 각 메서드의 테스트 코드를 생성합니다.
-   • 생성된 테스트 코드를 바탕으로 버그를 수정합니다.
+6. **PathExplorer 심층 테스트 및 디버깅하기**
+   • Cursor에 "PathExplorer 클래스의 각 메서드를 테스트하는 코드를 작성해줘" 라고 요청합니다.
+   • "PathExplorer의 findOptimalPath 메서드에서 무한 루프 문제를 해결해줘" 와 같이 요청하여 남은 버그를 수정합니다.
+   • 생성된 테스트 코드를 바탕으로 나머지 버그를 모두 수정합니다.
+   • 최종 테스트를 실행하여 모든 테스트가 통과하는지 확인합니다.
 
 ⸻
 
@@ -73,7 +85,9 @@ PathExplorer 여러 가지 버그 포함:
 ```
 "formatGreeting 함수의 null 처리 문제를 해결해줘"
 
-"PathExplorer 클래스의 calculatePathCost 메서드에 있는 0으로 나누기 버그를 수정해줘"
+"PathExplorer 클래스의 findOptimalPath 메서드가 null edges를 처리할 수 있도록 수정해줘"
+
+"calculateDueDate 함수에서 days가 0일 때 ArithmeticException이 발생하지 않도록 수정해줘"
 
 "Counter 컴포저블의 무한 루프 문제를 해결하고, 제대로 동작하는지 테스트하는 코드를 작성해줘"
 
@@ -84,29 +98,42 @@ PathExplorer 여러 가지 버그 포함:
 
 ⸻
 
-🧩 테스트 코드 조각 예시
+🧩 예시 코드 (수정 전/후)
 
-아래는 참고용 코드 조각입니다. 실제로는 Cursor에 요청하여 전체 테스트 코드를 생성하세요:
+**버그가 있는 원본 코드:**
 
 ```kotlin
-// JUnit 테스트 의존성 추가 (app/build.gradle.kts)
-dependencies {
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.robolectric:robolectric:4.9")
-    // ... 기존 의존성들
+// null 처리 없는 원본 코드
+fun formatGreeting(name: String?): String {
+    return "Hello, " + name.uppercase() + "!"  // name이 null이면 NPE 발생
 }
 
-// MainActivity의 formatGreeting 함수를 테스트하는 코드
-@Test
-fun testFormatGreeting_nullName_returnsDefaultGreeting() {
-    // 수정된 함수에서는 null 처리가 되어 있어야 함
-    val result = activity.formatGreeting(null)
-    assertEquals("Hello, GUEST!", result)
-}
+// 0으로 나누기 버그가 있는 코드
+fun calculateDueDate(start: String, days: Int): String {
+    val secondsPerDay = 86400
+    val calculation = secondsPerDay / days  // days가 0이면 ArithmeticException 발생
 
-// 수정된 formatGreeting 함수
+    // ... 나머지 코드 ...
+}
+```
+
+**버그 수정 후 코드:**
+
+```kotlin
+// null 처리를 추가한 수정 코드
 fun formatGreeting(name: String?): String {
     return "Hello, " + (name?.uppercase() ?: "GUEST") + "!"
+}
+
+// 0으로 나누기 처리를 추가한 수정 코드
+fun calculateDueDate(start: String, days: Int): String {
+    if (days == 0) {
+        return start  // days가 0이면 시작일 그대로 반환
+    }
+    val secondsPerDay = 86400
+    val calculation = secondsPerDay / days  // 이제 days가 0이 아님이 보장됨
+
+    // ... 나머지 코드 ...
 }
 ```
 
@@ -114,10 +141,11 @@ fun formatGreeting(name: String?): String {
 
 🛠️ 학습 체크포인트
 
-1. 모든 버그를 AI의 도움으로 찾아내고 수정했나요?
+1. 컴파일 오류부터 해결했나요? (null 처리 등)
 2. 모든 함수와 컴포넌트에 대한 테스트 코드를 AI를 활용해 작성했나요?
-3. 테스트 코드가 모두 통과하나요?
-4. 테스트 커버리지는 충분한가요? (모든 경계 조건이 테스트되었나요?)
-5. AI에게 어떤 질문을 하면 더 효과적인 답변을 얻을 수 있었나요?
+3. 실행 시간 오류(RuntimeException)를 모두 해결했나요?
+4. 모든 테스트 코드가 통과하나요?
+5. 로직의 정확성까지 확인했나요? (최적 경로를 올바르게 찾는지 등)
+6. AI에게 어떤 질문을 하면 더 효과적인 답변을 얻을 수 있었나요?
 
 ⸻
