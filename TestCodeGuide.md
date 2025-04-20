@@ -1,15 +1,15 @@
 ⸻
 
-📘 TestCode 실습 가이드라인
+📘 TestCode 실습 가이드라인 - With Cursor AI 
 
 ⸻
 
 🧪 실습 목표
 
-이 프로젝트는 AI 코딩 도구(Cursor 등)를 활용해 다음을 실습하는 데 목적이 있습니다:
-• 단위 테스트 코드 생성
+이 프로젝트는 AI 코딩 도구(Cursor)를 활용해 다음을 실습하는 데 목적이 있습니다:
+• 테스트 코드 자동 생성 및 활용
 • 의도적으로 삽입된 버그 분석 및 디버깅
-• Compose UI 및 Kotlin 백엔드 로직 테스트 적용
+• Compose UI 및 Kotlin 백엔드 로직 테스트
 
 ⸻
 
@@ -20,10 +20,10 @@
 • parseAndSum(values: List<String>)
 • Greeting(...), Counter() (Compose UI)
 
-    •	그래프 관련 파일:
-    •	Node.kt - 그래프 노드 클래스
-    •	Edge.kt - 그래프 간선 클래스
-    •	PathExplorer.kt - 경로 탐색 알고리즘 클래스 (여러 버그 포함)
+• 그래프 관련 파일:
+• Node.kt - 그래프 노드 클래스
+• Edge.kt - 그래프 간선 클래스
+• PathExplorer.kt - 경로 탐색 알고리즘 클래스 (여러 버그 포함)
 
 ⸻
 
@@ -45,55 +45,79 @@ PathExplorer 여러 가지 버그 포함:
 
 ⸻
 
-✅ 실습 과제
+✅ 실습 과제 - Cursor AI 활용 방법
 
-1. 테스트 코드 작성
+1. 테스트 코드 생성하기
+   • Cursor에 "MainActivity 클래스의 formatGreeting 함수를 테스트하는 JUnit 테스트 코드를 작성해줘" 와 같이 요청합니다.
+   • 테스트 코드가 생성되면 app/src/test/java/com/example/testcode/ 디렉토리에 적절한 파일로 저장합니다.
+   • 필요한 의존성을 추가하도록 Cursor에 요청합니다: "build.gradle.kts 파일에 JUnit과 Robolectric 의존성을 추가해줘"
 
-각 함수에 대해 다음 항목을 포함한 테스트 코드를 작성하세요:
-• 정상 입력에 대한 결과 검증
-• 엣지 케이스 테스트 (null, 0, empty list 등)
-• 예외 발생 여부 테스트 (assertFailsWith, try-catch 등)
+2. 버그 분석 및 해결하기
+   • Cursor에 "이 함수의 문제점을 찾고 해결 방법을 제안해줘" 와 같이 요청합니다.
+   • 제안된 해결책을 검토하고 코드를 수정합니다.
+   • 수정 후 테스트를 실행하여 버그가 해결되었는지 확인합니다.
 
-2. Compose 컴포넌트 테스트
-   • Greeting() 컴포저블에 적절한 텍스트가 출력되는지 테스트
-   • Counter()가 정상 작동하도록 수정하고 테스트
+3. Compose UI 테스트하기
+   • Cursor에 "Greeting 컴포저블을 테스트하는 코드를 생성해줘" 와 같이 요청합니다.
+   • 무한 루프 버그가 있는 Counter 컴포넌트에 대해 "이 컴포넌트의 문제를 해결하고 테스트 코드를 작성해줘" 라고 요청합니다.
 
-3. 버그 수정
-   • 각 함수의 로직을 수정하여 테스트가 통과하도록 변경
-
-4. PathExplorer 테스트 및 디버깅
-   • PathExplorer 클래스의 각 메서드를 테스트하는 코드 작성
-   • findOptimalPath, findAllPaths, calculatePathCost 모두 테스트
-   • 다양한 그래프 구조에서의 동작 검증
-   • 여러 버그를 찾아내고 수정
-
-⸻
-
-🧠 힌트
-• formatGreeting → name?.uppercase() + ?: 처리
-• calculateDueDate → days == 0 예외처리 또는 로직 분기
-• parseAndSum → .toIntOrNull()로 안전 파싱
-• Counter() → delay() 또는 repeat 구조로 변경
-• PathExplorer → null 체크, 순환 검사, 예외 처리 추가
+4. PathExplorer 테스트 및 디버깅하기
+   • Cursor에 "PathExplorer 클래스에 있는 버그를 분석해줘" 라고 요청합니다.
+   • "PathExplorer의, findOptimalPath 메서드를 테스트하는 코드를 작성해줘" 와 같이 요청하여 각 메서드의 테스트 코드를 생성합니다.
+   • 생성된 테스트 코드를 바탕으로 버그를 수정합니다.
 
 ⸻
 
-💡 추가 팁
-• 단위 테스트용 라이브러리는 JUnit, Turbine, Robolectric 등을 사용할 수 있습니다.
-• MainActivity 클래스의 함수를 별도 클래스로 분리하면 테스트가 쉬워집니다.
-• AI 도구에 "이 함수에 대한 단위 테스트 코드를 생성해줘"라고 직접 지시하는 식으로 실습해보세요.
-• PathExplorer 클래스는 복잡한 알고리즘을 포함하므로 단계적으로 테스트하세요.
-• 그래프 테스트를 위해 다양한 케이스(순환 그래프, 비연결 그래프 등)를 구성해보세요.
+💡 Cursor에 요청할 수 있는 예시 프롬프트
+
+```
+"formatGreeting 함수의 null 처리 문제를 해결해줘"
+
+"PathExplorer 클래스의 calculatePathCost 메서드에 있는 0으로 나누기 버그를 수정해줘"
+
+"Counter 컴포저블의 무한 루프 문제를 해결하고, 제대로 동작하는지 테스트하는 코드를 작성해줘"
+
+"이 프로젝트에 단위 테스트를 위한 의존성을 추가하고, MainActivity의 모든 함수를 테스트하는 테스트 클래스를 작성해줘"
+
+"Node와 Edge 클래스를 이용한 간단한 그래프에서 PathExplorer가 최적 경로를 올바르게 찾는지 테스트하는 코드를 작성해줘"
+```
 
 ⸻
 
-🎯 결과 예시
-• testFormatGreeting_nullInput_throwsException()
-• testCalculateDueDate_zeroDays_throwsException()
-• testParseAndSum_invalidInput_throwsNumberFormatException()
-• testGreeting_showsExpectedText()
-• testCounter_incrementsCorrectly() ← 무한루프 수정 후
-• testPathExplorer_findOptimalPath_simpleGraph()
-• testPathExplorer_calculatePathCost_withNullEdge_throwsException()
+🧩 테스트 코드 조각 예시
+
+아래는 참고용 코드 조각입니다. 실제로는 Cursor에 요청하여 전체 테스트 코드를 생성하세요:
+
+```kotlin
+// JUnit 테스트 의존성 추가 (app/build.gradle.kts)
+dependencies {
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.robolectric:robolectric:4.9")
+    // ... 기존 의존성들
+}
+
+// MainActivity의 formatGreeting 함수를 테스트하는 코드
+@Test
+fun testFormatGreeting_nullName_returnsDefaultGreeting() {
+    // 수정된 함수에서는 null 처리가 되어 있어야 함
+    val result = activity.formatGreeting(null)
+    assertEquals("Hello, GUEST!", result)
+}
+
+// 수정된 formatGreeting 함수
+fun formatGreeting(name: String?): String {
+    return "Hello, " + (name?.uppercase() ?: "GUEST") + "!"
+}
+```
+
+⸻
+
+🛠️ 학습 체크포인트
+
+1. 모든 버그를 AI의 도움으로 찾아내고 수정했나요?
+2. 모든 함수와 컴포넌트에 대한 테스트 코드를 AI를 활용해 작성했나요?
+3. 테스트 코드가 모두 통과하나요?
+4. 테스트 커버리지는 충분한가요? (모든 경계 조건이 테스트되었나요?)
+5. AI에게 어떤 질문을 하면 더 효과적인 답변을 얻을 수 있었나요?
 
 ⸻
