@@ -11,11 +11,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.testcode.ui.theme.TestcodeTheme
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlinx.coroutines.delay
 
 /**
  * MainActivity는 파인만의 경로적분(Path Integral) 아이디어를 적용한
  * PathExplorer 클래스를 사용하여 그래프의 최적 경로를 계산하고,
  * Compose UI로 결과를 보여줍니다.
+ * 
+ * 또한 테스트 코드 작성 연습을 위한 추가 함수와 UI 컴포넌트를 포함합니다.
  */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,10 +28,48 @@ class MainActivity : ComponentActivity() {
         setContent {
             TestcodeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
-                    PathIntegralScreen(modifier = Modifier.padding(padding))
+                    Column(modifier = Modifier.padding(padding)) {
+                        // 기존 경로 적분 화면
+                        PathIntegralScreen(modifier = Modifier.weight(1f))
+                        
+                        // 새로 추가된 테스트용 UI 컴포넌트
+                        Greeting(name = "Android")
+                        Counter()
+                    }
                 }
             }
         }
+    }
+    
+    /**
+     * 버그 1: null 처리 없음 - NullPointerException 발생 가능
+     */
+    fun formatGreeting(name: String?): String {
+        return "Hello, " + name.uppercase() + "!"
+    }
+    
+    /**
+     * 버그 2: 0으로 나누는 계산 포함 - days = 0일 때 ArithmeticException 발생
+     */
+    fun calculateDueDate(start: String, days: Int): String {
+        val secondsPerDay = 86400
+        val calculation = secondsPerDay / days // 0으로 나누면 ArithmeticException
+        
+        val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = format.parse(start)
+        val calendar = Calendar.getInstance()
+        calendar.time = date ?: Date()
+        calendar.add(Calendar.DAY_OF_YEAR, days)
+        
+        return format.format(calendar.time)
+    }
+    
+    /**
+     * 버그 3: 입력값 검증 없음 - 숫자가 아닌 항목 포함 시 NumberFormatException 발생
+     */
+    fun parseAndSum(values: List<String>): Int {
+        val numbers = values.map { it.toInt() } // 안전하지 않은 변환
+        return numbers.sum()
     }
 }
 
@@ -84,4 +127,37 @@ fun PathIntegralScreen(modifier: Modifier = Modifier) {
             Text("다시 계산")
         }
     }
+}
+
+/**
+ * UI 컴포저블: 인사말 표시 (테스트 대상)
+ */
+@Composable
+fun Greeting(name: String) {
+    Text(text = "Hello $name!")
+}
+
+/**
+ * UI 컴포저블: 카운터 기능 (무한 루프 버그 포함)
+ */
+@Composable
+fun Counter() {
+    var count by remember { mutableStateOf(0) }
+    
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = "Count: $count")
+        
+        Button(onClick = {
+            // 버그 4: 무한 루프 - 앱 프리징 또는 강제 종료 가능
+            while (true) {
+                count++
+                if (count > 1000000) break // 이 조건은 실행되지 않음
+            }
+        }) {
+            Text("Increment")
+        }
+    }
+    
+    // 이 코드는 버그를 수정한 예시 (학생이 구현해야 함)
+    // Button(onClick = { count++ }) { Text("Increment") }
 }
