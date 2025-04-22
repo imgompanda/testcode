@@ -5,7 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -40,28 +42,24 @@ class MainActivity : ComponentActivity() {
     }
     
     /**
-     * 인사말 형식 지정 함수 - null 이름 처리 버그 포함
+     * 인사말 형식 지정 함수 - UtilityFunctions 클래스 사용
      */
     fun formatGreeting(name: String?): String {
-        if (name == null) {
-            return "Hello, GUEST!"
-        }
-        return "Hello, " + name.uppercase() + "!"
+        return UtilityFunctions.formatGreeting(name)
     }
     
     /**
-     * 만기일 계산 함수 - 0으로 나누기 버그 포함
+     * 만기일 계산 함수 - UtilityFunctions 클래스 사용
      */
     fun calculateDueDate(startDate: LocalDate, days: Int, divisor: Int): LocalDate {
-        val adjustedDays = days / divisor
-        return startDate.plusDays(adjustedDays.toLong())
+        return UtilityFunctions.calculateDueDate(startDate, days, divisor)
     }
     
     /**
-     * 문자열 리스트의 숫자를 파싱하고 합산하는 함수 - 입력값 검증 버그 포함
+     * 문자열 리스트의 숫자를 파싱하고 합산하는 함수 - UtilityFunctions 클래스 사용
      */
     fun parseAndSum(strings: List<String>): Int {
-        return strings.map { it.toInt() }.sum()
+        return UtilityFunctions.parseAndSum(strings)
     }
 }
 
