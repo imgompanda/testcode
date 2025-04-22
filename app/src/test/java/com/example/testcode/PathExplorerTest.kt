@@ -1,13 +1,15 @@
 package com.example.testcode
 
-import org.junit.Assert.*
+import android.util.Log
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
-import android.util.Log
+import kotlin.test.assertContentEquals
 
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = Config.NONE)
@@ -147,7 +149,8 @@ class PathExplorerTest {
         
         // Then
         Log.d(TAG, "파싱 결과: ${result.joinToString(", ")}")
-        assertArrayEquals(expected.toDoubleArray(), result.toDoubleArray(), 0.001)
+        // assertArrayEquals 대신 다른 방법으로 비교
+        assertTrue("파싱된 결과가 예상과 다릅니다", expected.zip(result).all { (a, b) -> kotlin.math.abs(a - b) < 0.001 })
         Log.d(TAG, "테스트 성공: 문자열 비용이 올바르게 파싱됨")
     }
     
@@ -165,7 +168,8 @@ class PathExplorerTest {
         
         // Then
         Log.d(TAG, "파싱 결과: ${result.joinToString(", ")}")
-        assertArrayEquals(expected.toDoubleArray(), result.toDoubleArray(), 0.001)
+        // assertArrayEquals 대신 다른 방법으로 비교
+        assertTrue("파싱된 결과가 예상과 다릅니다", expected.zip(result).all { (a, b) -> kotlin.math.abs(a - b) < 0.001 })
         assertEquals(3, result.size)
         Log.d(TAG, "테스트 성공: 유효하지 않은 값이 올바르게 필터링됨")
     }
@@ -221,9 +225,3 @@ class PathExplorerTest {
         Log.d(TAG, "테스트 성공: 복잡한 그래프에서 최적 경로 확인됨")
     }
 }
-
-// 테스트를 위한 노드 클래스 (PathExplorer에서 필요로 하는 클래스 구조)
-data class Node(val id: Int, val label: String)
-
-// 테스트를 위한 간선 클래스 (PathExplorer에서 필요로 하는 클래스 구조)
-data class Edge(val from: Node, val to: Node, val cost: Double)

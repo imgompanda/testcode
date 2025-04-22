@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    MainScreen()
                 }
             }
         }
@@ -60,6 +60,42 @@ class MainActivity : ComponentActivity() {
      */
     fun parseAndSum(strings: List<String>): Int {
         return UtilityFunctions.parseAndSum(strings)
+    }
+}
+
+/**
+ * UI 컴포저블: 메인 화면
+ * 여러 컴포저블 간에 전환할 수 있는 메인 화면입니다.
+ */
+@Composable
+fun MainScreen() {
+    var currentScreen by remember { mutableStateOf("Greeting") }
+    
+    Column(modifier = Modifier.fillMaxSize()) {
+        // 상단 메뉴 버튼들
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Button(onClick = { currentScreen = "Greeting" }) {
+                Text("인사말")
+            }
+            Button(onClick = { currentScreen = "PathIntegral" }) {
+                Text("경로적분")
+            }
+            Button(onClick = { currentScreen = "Counter" }) {
+                Text("카운터")
+            }
+        }
+        
+        // 선택된 화면 표시
+        when (currentScreen) {
+            "Greeting" -> Greeting("Android")
+            "PathIntegral" -> PathIntegralScreen()
+            "Counter" -> Counter()
+        }
     }
 }
 
@@ -103,7 +139,7 @@ fun PathIntegralScreen(modifier: Modifier = Modifier) {
         
         // 최적 경로 결과 표시
         if (optimalPath.value.isNotEmpty()) {
-            Text(text = "최적 경로: " + optimalPath.value.joinToString(" → ") { node -> node.name })
+            Text(text = "최적 경로: " + optimalPath.value.joinToString(" → ") { it.name })
         } else {
             Text(text = "경로를 찾을 수 없습니다.")
         }
@@ -124,11 +160,16 @@ fun PathIntegralScreen(modifier: Modifier = Modifier) {
  */
 @Composable
 fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text = "Hello $name!")
+    }
 }
 
 /**
- * UI 컴포저블: 카운터 기능 (무한 루프 버그 포함)
+ * UI 컴포저블: 카운터 기능 (무한 루프 버그 수정)
  */
 @Composable
 fun Counter() {
@@ -141,12 +182,20 @@ fun Counter() {
     ) {
         Text(text = "Count: $count")
         Button(onClick = {
-            // 의도적인 버그: 무한 루프 발생
-            while (count < 10) {
+            // 무한 루프 해결: 조건부 증가로 변경
+            if (count < 10) {
                 count += 1
             }
         }) {
             Text("Increment")
+        }
+        
+        // 카운터 초기화 버튼 추가
+        Button(
+            onClick = { count = 0 },
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Text("Reset")
         }
     }
 }
