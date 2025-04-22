@@ -69,6 +69,8 @@ PathExplorer 여러 가지 버그 포함:
    • 동일한 방식으로 모든 함수에 대한 테스트 코드를 생성합니다.
 
 5. **남은 버그 수정 및 테스트**
+
+
    • 테스트를 실행하여 실패하는 테스트를 확인합니다.
    • Cursor에 "UtilityFunctions의 calculateDueDate 함수에서 0으로 나누기 문제를 해결해줘" 와 같이 구체적인 버그 수정을 요청합니다.
    • parseAndSum 함수의 입력값 검증 문제도 유사하게 해결합니다.
@@ -86,7 +88,8 @@ PathExplorer 여러 가지 버그 포함:
 
 ⸻
 
-💡 Cursor에 요청할 수 있는 예시 프롬프트
+💡 Cursor에 요청할 수 있는 예시 프롬프트입니다.
+
 
 ```
 "formatGreeting 함수의 null 처리 문제를 해결해줘"
