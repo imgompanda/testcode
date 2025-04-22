@@ -46,8 +46,8 @@ class PathExplorer {
      * 시작 노드에서 목적지 노드까지의 모든 가능한 경로를 찾는 함수
      */
     private fun findAllPaths(
-        start: Node, 
-        target: Node, 
+        start: Node,
+        target: Node,
         edges: List<Edge>,
         currentPath: List<Node> = listOf(start),
         visited: Set<Node> = setOf(start)
